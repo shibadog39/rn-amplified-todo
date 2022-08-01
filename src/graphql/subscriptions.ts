@@ -11,6 +11,9 @@ export const onCreateTodo = /* GraphQL */ `
       isComplete
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -23,6 +26,9 @@ export const onUpdateTodo = /* GraphQL */ `
       isComplete
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -35,6 +41,9 @@ export const onDeleteTodo = /* GraphQL */ `
       isComplete
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;

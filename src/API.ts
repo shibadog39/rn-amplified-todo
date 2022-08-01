@@ -7,6 +7,7 @@ export type CreateTodoInput = {
   name: string,
   description?: string | null,
   isComplete: boolean,
+  _version?: number | null,
 };
 
 export type ModelTodoConditionInput = {
@@ -73,6 +74,9 @@ export type Todo = {
   isComplete: boolean,
   createdAt: string,
   updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
 };
 
 export type UpdateTodoInput = {
@@ -80,10 +84,12 @@ export type UpdateTodoInput = {
   name?: string | null,
   description?: string | null,
   isComplete?: boolean | null,
+  _version?: number | null,
 };
 
 export type DeleteTodoInput = {
   id: string,
+  _version?: number | null,
 };
 
 export type ModelTodoFilterInput = {
@@ -116,6 +122,7 @@ export type ModelTodoConnection = {
   __typename: "ModelTodoConnection",
   items:  Array<Todo | null >,
   nextToken?: string | null,
+  startedAt?: number | null,
 };
 
 export type CreateTodoMutationVariables = {
@@ -132,6 +139,9 @@ export type CreateTodoMutation = {
     isComplete: boolean,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -149,6 +159,9 @@ export type UpdateTodoMutation = {
     isComplete: boolean,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -166,6 +179,9 @@ export type DeleteTodoMutation = {
     isComplete: boolean,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -182,6 +198,9 @@ export type GetTodoQuery = {
     isComplete: boolean,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -202,8 +221,39 @@ export type ListTodosQuery = {
       isComplete: boolean,
       createdAt: string,
       updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
     } | null >,
     nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncTodosQueryVariables = {
+  filter?: ModelTodoFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncTodosQuery = {
+  syncTodos?:  {
+    __typename: "ModelTodoConnection",
+    items:  Array< {
+      __typename: "Todo",
+      id: string,
+      name: string,
+      description?: string | null,
+      isComplete: boolean,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -216,6 +266,9 @@ export type OnCreateTodoSubscription = {
     isComplete: boolean,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -228,6 +281,9 @@ export type OnUpdateTodoSubscription = {
     isComplete: boolean,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };
 
@@ -240,5 +296,8 @@ export type OnDeleteTodoSubscription = {
     isComplete: boolean,
     createdAt: string,
     updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
   } | null,
 };

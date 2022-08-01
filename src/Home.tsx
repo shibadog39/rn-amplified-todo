@@ -27,7 +27,10 @@ const AddTodoModal = ({ modalVisible, setModalVisible }: TAddTodoModal) => {
   const [description, setDescription] = useState("");
 
   async function addTodo() {
-    //to be filled in a later step
+    await DataStore.save(new Todo({ name, description, isComplete: false }));
+    setModalVisible(false);
+    setName("");
+    setDescription("");
   }
 
   function closeModal() {
@@ -66,18 +69,37 @@ const AddTodoModal = ({ modalVisible, setModalVisible }: TAddTodoModal) => {
 };
 
 const TodoList = () => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
-    //to be filled in a later step
+    //query the initial todolist and subscribe to data updates
+    const subscription = DataStore.observeQuery(Todo).subscribe((snapshot) => {
+      //isSynced can be used to show a loading spinner when the list is being loaded.
+      const { items, isSynced } = snapshot;
+      setTodos(items);
+    });
+
+    //unsubscribe to data updates when component is destroyed so that we don’t introduce a memory leak.
+    return function cleanup() {
+      subscription.unsubscribe();
+    };
   }, []);
 
   async function deleteTodo(todo: any) {
-    //to be filled in a later step
+    try {
+      await DataStore.delete(todo);
+    } catch (e) {
+      console.log("Delete failed: $e");
+    }
   }
 
   async function setComplete(updateValue: any, todo: any) {
-    //to be filled in a later step
+    //update the todo item with updateValue
+    await DataStore.save(
+      Todo.copyOf(todo, (updated) => {
+        updated.isComplete = updateValue;
+      })
+    );
   }
 
   const renderItem = ({ item }: any) => (
