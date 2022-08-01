@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { DataStore } from "aws-amplify";
-// import { Todo } from "./models";
+import { Todo } from "./models";
 
 const Header = () => (
   <View style={styles.headerContainer}>
